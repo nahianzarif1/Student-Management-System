@@ -16,17 +16,19 @@ public class Student {
     private String name;
     private String email;
 
-    // Security Role
-    private String role = "STUDENT";
+    // --- NEW LINK TO USER (Login Info) ---
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+    // -------------------------------------
 
-    // LINK TO DEPARTMENT (Many Students -> One Department)
+    // LINK TO DEPARTMENT
     @ManyToOne
     @JoinColumn(name = "department_id")
     @ToString.Exclude
     private Department department;
 
-    // LINK TO COURSES (Many Students <-> Many Courses)
-    // This automatically creates a middle table called "student_courses"
+    // LINK TO COURSES
     @ManyToMany
     @JoinTable(
             name = "student_courses",

@@ -2,6 +2,8 @@ package com.example.student_management_system.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,14 +15,16 @@ public class Course {
     private Long id;
 
     private String title;
-    private int credits;
+    private String description;
 
-    // Many Students can be in this Course
-    @ManyToMany(mappedBy = "courses")
-    private List<Student> students;
-
-    // One Teacher teaches this Course
+    // A Course is taught by ONE Teacher
     @ManyToOne
-    @JoinColumn(name = "teacher_id") // Creates a Foreign Key column
+    @JoinColumn(name = "teacher_id")
+    @ToString.Exclude
     private Teacher teacher;
+
+    // A Course has MANY Students
+    @ManyToMany(mappedBy = "courses")
+    @ToString.Exclude
+    private List<Student> students = new ArrayList<>();
 }

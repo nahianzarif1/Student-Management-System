@@ -6,11 +6,26 @@
 </head>
 <body class="container mt-5">
 
-<nav class="navbar navbar-light bg-light mb-4 px-3 d-flex justify-content-between border rounded">
-    <span class="navbar-brand mb-0 h1">🏫 School App</span>
-    <form th:action="@{/logout}" method="post">
-        <button type="submit" class="btn btn-outline-danger">Logout</button>
-    </form>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">School App</a>
+
+        <a class="nav-link text-white" href="/courses">Courses</a>
+
+        <div class="d-flex align-items-center">
+            <span class="text-white me-3">
+                Logged in as:
+                <strong sec:authentication="name" class="text-warning">User</strong>
+
+                <span sec:authorize="hasRole('TEACHER')" class="badge bg-danger ms-1">Teacher</span>
+
+                <span sec:authorize="hasRole('STUDENT')" class="badge bg-info text-dark ms-1">Student</span>
+            </span>
+            <form th:action="@{/logout}" method="post" class="d-flex m-0">
+                <button class="btn btn-outline-light btn-sm" type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
 </nav>
 
 <h2>Student Management System</h2>
@@ -36,7 +51,14 @@
         <td th:text="${student.email}">Email</td>
         <td th:text="${student.department?.name}">Dept</td>
         <td>
+            <a sec:authorize="hasRole('TEACHER')"
+               th:href="@{/students/edit/{id}(id=${student.id})}"
+               class="btn btn-primary btn-sm">
+                Edit
+            </a>
+
             <a sec:authorize="hasRole('STUDENT')"
+               th:if="${student.user != null and #authentication.name == student.user.username}"
                th:href="@{/students/edit/{id}(id=${student.id})}"
                class="btn btn-primary btn-sm">
                 Edit
@@ -44,7 +66,8 @@
 
             <a sec:authorize="hasRole('TEACHER')"
                th:href="@{/students/delete/{id}(id=${student.id})}"
-               class="btn btn-danger btn-sm">
+               class="btn btn-danger btn-sm"
+               onclick="return confirm('Are you sure?')">
                 Delete
             </a>
         </td>

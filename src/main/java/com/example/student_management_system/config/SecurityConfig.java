@@ -1,67 +1,69 @@
 package com.example.student_management_system.config;
 
+// --- THESE IMPORTS ARE CRITICAL ---
+import com.example.student_management_system.service.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider; // <--- THIS FIXES YOUR ERROR
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+// ----------------------------------
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    // 1. Password Encoder (Makes passwords secure)
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    // 2. Security Filter Chain (Rules)
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        // 1. ALLOW HOME PAGE (This is the new line!)
-                        .requestMatchers("/").permitAll()
+                        // Allow everyone to see Home, Login, and Signup pages
+                        .requestMatchers("/", "/signup", "/register", "/login").permitAll()
 
-                        // RULE 1: Only TEACHERS can delete or add students
+                        // RESTRICTED AREAS
                         .requestMatchers("/students/new", "/students/delete/**").hasRole("TEACHER")
-
-                        // RULE: Only STUDENTS can Edit
                         .requestMatchers("/students/edit/**").hasRole("STUDENT")
-
-                        // RULE 2: Everyone (Teachers & Students) can view the list
                         .requestMatchers("/students").authenticated()
 
-                        // Allow CSS/JS to load for everyone
+                        // Allow static resources (CSS/JS)
                         .requestMatchers("/css/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                        .defaultSuccessUrl("/students", true) // Go here after login
+                       // .loginPage("/login")
+                        .defaultSuccessUrl("/students", true)
                         .permitAll()
                 )
                 .logout((logout) -> logout
-                        .logoutSuccessUrl("/") // Go back to Home Page after logout
+                        .logoutSuccessUrl("/")
                         .permitAll()
                 );
 
         return http.build();
     }
 
+    // 3. Connect Database Auth (The Bridge)
     @Bean
-    public UserDetailsService userDetailsService() {
-        // Define a STUDENT user
-        UserDetails student = User.withDefaultPasswordEncoder()
-                .username("student")
-                .password("password")
-                .roles("STUDENT")
-                .build();
+    public DaoAuthenticationProvider authenticationProvider(CustomUserDetailsService userDetailsService) {
+        // OLD WAY (Causes Error): new DaoAuthenticationProvider();
+        // NEW WAY (Fix): Pass the service directly into the parentheses!
+        DaoAuthenticationProvider auth = new DaoAuthenticationProvider(userDetailsService);
 
-        // Define a TEACHER user
-        UserDetails teacher = User.withDefaultPasswordEncoder()
-                .username("teacher")
-                .password("password")
-                .roles("TEACHER")
-                .build();
+        // Remove this line because we already did it above:
+        // auth.setUserDetailsService(userDetailsService);
 
-        return new InMemoryUserDetailsManager(student, teacher);
+        auth.setPasswordEncoder(passwordEncoder());
+        return auth;
     }
 }

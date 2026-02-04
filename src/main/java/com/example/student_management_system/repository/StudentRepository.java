@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface StudentRepository extends JpaRepository<Student, Long> {
     // This gives you ready-made methods:
     // .save(), .findAll(), .deleteById(), etc.
+    Student findByUser(com.example.student_management_system.model.User user);
 }
