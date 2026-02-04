@@ -1,4 +1,4 @@
-# 🎓 Student Management System
+#  Student Management System
 
 A **Spring Boot Web Application** for managing students, courses, teachers, and departments with **secure login and role-based access control**.
 
@@ -6,30 +6,30 @@ This project demonstrates a **layered architecture**, **database integration**, 
 
 ---
 
-## 🚀 Features
+##  Features
 
-### 👤 Authentication & Security
+### Authentication & Security
 - User registration and login
 - Passwords encrypted using **BCrypt**
 - Role-based access control (**STUDENT**, **TEACHER**)
 - Secure session handling with Spring Security
 
-### 🎓 Student Management
+###  Student Management
 - Add new students *(Teacher only)*
 - Edit student information *(Student role)*
 - Delete students *(Teacher only)*
 - View all students *(Any logged-in user)*
 
-### 📚 Course Management
+###  Course Management
 - Add courses
 - View available courses
 
-### 🏫 Department & Teacher Management
+###  Department & Teacher Management
 - Manage departments and teachers in the system
 
 ---
 
-## 🧱 Project Architecture
+##  Project Architecture
 
 The project follows a **standard Spring Boot layered architecture**:
 
