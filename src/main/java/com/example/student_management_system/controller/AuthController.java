@@ -28,6 +28,12 @@ public class AuthController {
         return "signup";
     }
 
+    // 1.1 Show the Login Form
+    @GetMapping("/login")
+    public String showLoginForm() {
+        return "login";
+    }
+
     // 2. Process the Sign-Up
     @PostMapping("/register")
     public String registerUser(User user) {

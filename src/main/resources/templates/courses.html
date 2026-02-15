@@ -1,49 +1,79 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Available Courses</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
 </head>
-<body class="container mt-5">
+<body>
+<div class="page">
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brand-dot"></span>
+      Student System
+    </a>
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <h2>Available Courses</h2>
+    <nav class="nav-links">
+      <a class="nav-link" href="/students">Students</a>
+      <a class="nav-link is-active" href="/courses">Courses</a>
+    </nav>
 
-  <a sec:authorize="hasRole('TEACHER')" href="/courses/new" class="btn btn-primary">
-    + Create New Course
-  </a>
+    <div class="topbar__meta">
+      <div class="user-chip">
+        <span>Logged in as</span>
+        <strong sec:authentication="name">User</strong>
+        <span sec:authorize="hasRole('TEACHER')" class="pill pill--teacher">Teacher</span>
+        <span sec:authorize="hasRole('STUDENT')" class="pill pill--student">Student</span>
+      </div>
+      <form th:action="@{/logout}" method="post">
+        <button class="button button--ghost button--small" type="submit">Logout</button>
+      </form>
+    </div>
+  </header>
 
-  <a href="/students" class="btn btn-secondary">Back to Dashboard</a>
-</div>
+  <main class="shell">
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">Curriculum</p>
+        <h1 class="title">Available courses</h1>
+        <p class="subtitle">Browse offerings and manage enrollments.</p>
+      </div>
+      <div class="page-head__actions">
+        <a sec:authorize="hasRole('TEACHER')" href="/courses/new" class="button button--primary">
+          Create new course
+        </a>
+      </div>
+    </div>
 
-<div class="row">
-  <div class="col-md-4 mb-4" th:each="course : ${courses}">
-    <div class="card h-100">
-      <div class="card-body">
-        <h5 class="card-title" th:text="${course.title}">Java Basics</h5>
-        <h6 class="card-subtitle mb-2 text-muted"
-            th:text="'Instructor: ' + ${course.teacher != null ? course.teacher.name : 'Unknown'}">
-          Instructor: Mr. Smith
-        </h6>
-        <p class="card-text" th:text="${course.description}">Learn Java from scratch.</p>
+    <div class="course-grid">
+      <article class="course-card" th:each="course : ${courses}">
+        <div>
+          <h3 th:text="${course.title}">Java Basics</h3>
+          <p class="course-card__meta"
+             th:text="'Instructor: ' + ${course.teacher != null ? course.teacher.name : 'Unknown'}">
+            Instructor: Mr. Smith
+          </p>
+        </div>
+        <p class="subtitle" th:text="${course.description}">Learn Java from scratch.</p>
 
-        <div sec:authorize="hasRole('STUDENT')">
-
+        <div class="course-card__actions" sec:authorize="hasRole('STUDENT')">
           <form th:if="${course.students.contains(student)}"
                 th:action="@{/courses/enroll/{id}(id=${course.id})}" method="post">
-            <button type="submit" class="btn btn-danger w-100">Unenroll</button>
+            <button type="submit" class="button button--danger">Unenroll</button>
           </form>
 
           <form th:unless="${course.students.contains(student)}"
                 th:action="@{/courses/enroll/{id}(id=${course.id})}" method="post">
-            <button type="submit" class="btn btn-success w-100">Enroll Now</button>
+            <button type="submit" class="button button--success">Enroll now</button>
           </form>
-
         </div>
-      </div>
+      </article>
     </div>
-  </div>
+  </main>
 </div>
-
 </body>
 </html>

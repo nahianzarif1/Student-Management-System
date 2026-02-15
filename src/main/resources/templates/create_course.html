@@ -1,21 +1,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Create Course</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Course</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
 </head>
-<body class="container mt-5">
-<h2>Create New Course</h2>
-<form th:action="@{/courses/save}" th:object="${course}" method="post">
-    <div class="mb-3">
-        <label>Course Title</label>
-        <input type="text" th:field="*{title}" class="form-control" required>
+<body>
+<div class="page">
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brand-dot"></span>
+      Student System
+    </a>
+    <div class="topbar__meta">
+      <a href="/courses" class="button button--ghost button--small">Back to courses</a>
     </div>
-    <div class="mb-3">
-        <label>Description</label>
-        <textarea th:field="*{description}" class="form-control"></textarea>
+  </header>
+
+  <main class="shell">
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">Curriculum</p>
+        <h1 class="title">Create a new course</h1>
+        <p class="subtitle">Describe the course so students know what to expect.</p>
+      </div>
     </div>
-    <button type="submit" class="btn btn-success">Create Course</button>
-</form>
+
+    <div class="form-card">
+      <form th:action="@{/courses/save}" th:object="${course}" method="post" class="form-grid">
+        <div class="field">
+          <label for="title">Course title</label>
+          <input id="title" type="text" th:field="*{title}" class="input" required>
+        </div>
+        <div class="field field--full">
+          <label for="description">Description</label>
+          <textarea id="description" th:field="*{description}" class="textarea" placeholder="Share course goals and topics"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="button button--primary">Create course</button>
+          <a href="/courses" class="button button--outline">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </main>
+</div>
 </body>
 </html>

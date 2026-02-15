@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<div class="page">
+  <header class="topbar topbar--transparent">
+    <a class="brand" href="/">
+      <span class="brand-dot"></span>
+      Student System
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="/signup">Create account</a>
+    </div>
+  </header>
+
+  <main class="shell">
+    <div class="auth-shell">
+      <div class="auth-side">
+        <p class="eyebrow">Welcome back</p>
+        <h2>Pick up where you left off.</h2>
+        <p class="subtitle">Access your dashboard and keep classrooms running smoothly.</p>
+        <ul class="checklist">
+          <li>Instant access to rosters</li>
+          <li>Manage enrollments fast</li>
+          <li>Secure, role-based views</li>
+        </ul>
+      </div>
+
+      <div class="auth-card">
+        <h2>Sign in</h2>
+        <p class="subtitle">Use your credentials to continue.</p>
+
+        <div th:if="${param.error}" class="alert alert--error">Invalid username or password.</div>
+        <div th:if="${param.logout}" class="alert alert--success">You have been logged out.</div>
+
+        <form th:action="@{/login}" method="post" class="form-stack">
+          <div class="field">
+            <label for="username">Username</label>
+            <input id="username" type="text" name="username" class="input" required placeholder="Your username"/>
+          </div>
+
+          <div class="field">
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" class="input" required placeholder="Your password"/>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="button button--primary">Login</button>
+            <a href="/signup" class="button button--outline">Create account</a>
+          </div>
+        </form>
+        <p class="footer-note">Need access? Contact the administrator.</p>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

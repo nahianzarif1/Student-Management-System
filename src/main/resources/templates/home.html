@@ -1,29 +1,89 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Welcome</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <style>
-    body { display: flex; align-items: center; justify-content: center; height: 100vh; background-color: #f8f9fa; }
-    .card { padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
 </head>
 <body>
-<div class="card text-center">
-  <h1>🎓 Student System</h1>
-  <p class="lead text-muted">Manage students, teachers, and courses easily.</p>
+<div class="page">
+  <header class="topbar topbar--transparent">
+    <a class="brand" href="/">
+      <span class="brand-dot"></span>
+      Student System
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="/signup">Create account</a>
+      <a class="button button--primary button--small" href="/login">Login</a>
+    </div>
+  </header>
 
-  <div class="mt-4">
-    <a href="/login" class="btn btn-primary btn-lg px-5">Login</a>
-  </div>
+  <main class="shell">
+    <section class="hero">
+      <div class="hero__content rise">
+        <p class="eyebrow">Student management platform</p>
+        <h1 class="hero__title">Keep every learner on track, beautifully.</h1>
+        <p class="lead">Manage students, teachers, and courses with clarity, speed, and confidence.</p>
+        <div class="cta-group">
+          <a class="button button--primary" href="/login">Login</a>
+          <a class="button button--outline" href="/signup">Create account</a>
+          <a class="button button--ghost" href="/students">Open dashboard</a>
+        </div>
+        <div class="hero__meta">
+          <div class="stat">
+            <span class="stat__value">Role-aware</span>
+            <span class="stat__label">Teacher and student perspectives</span>
+          </div>
+          <div class="stat">
+            <span class="stat__value">Structured</span>
+            <span class="stat__label">Courses, departments, and rosters</span>
+          </div>
+          <div class="stat">
+            <span class="stat__value">Fast</span>
+            <span class="stat__label">Quick create and edit flows</span>
+          </div>
+        </div>
+      </div>
 
-  <div class="mt-3">
-    <a href="/signup" class="btn btn-outline-success">Create New Account</a>
-  </div>
+      <div class="hero-panel">
+        <div class="hero-panel__card">
+          <h3>Daily overview</h3>
+          <p class="subtitle">See what is changing across students and courses, at a glance.</p>
+          <ul class="checklist">
+            <li>Unified profiles</li>
+            <li>Instant enrollments</li>
+            <li>Simple admin actions</li>
+          </ul>
+        </div>
+        <div class="hero-panel__card">
+          <h3>Designed for focus</h3>
+          <p class="subtitle">A clean, modern workspace for quick decisions.</p>
+        </div>
+      </div>
+    </section>
 
-  <div class="mt-3">
-    <a href="/students" class="btn btn-outline-secondary">Go to Dashboard</a>
-  </div>
+    <section class="feature-grid">
+      <article class="feature-card">
+        <p class="eyebrow">Students</p>
+        <h3>Organized rosters</h3>
+        <p class="subtitle">Sort and maintain every student profile without clutter.</p>
+      </article>
+      <article class="feature-card">
+        <p class="eyebrow">Courses</p>
+        <h3>Clear enrollments</h3>
+        <p class="subtitle">Track classes, instructors, and student progress together.</p>
+      </article>
+      <article class="feature-card">
+        <p class="eyebrow">Security</p>
+        <h3>Role-based access</h3>
+        <p class="subtitle">Teachers and students only see what they need.</p>
+      </article>
+    </section>
+  </main>
 </div>
 </body>
 </html>

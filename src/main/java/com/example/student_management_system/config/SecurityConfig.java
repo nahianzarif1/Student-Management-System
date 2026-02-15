@@ -33,15 +33,17 @@ public class SecurityConfig {
 
                         // RESTRICTED AREAS
                         .requestMatchers("/students/new", "/students/delete/**").hasRole("TEACHER")
-                        .requestMatchers("/students/edit/**").hasRole("STUDENT")
-                        .requestMatchers("/students").authenticated()
+                        .requestMatchers("/students/edit/**").hasAnyRole("STUDENT", "TEACHER")
+                        .requestMatchers("/students/**").authenticated()
+                        .requestMatchers("/courses/new", "/courses/save").hasRole("TEACHER")
+                        .requestMatchers("/courses/**").authenticated()
 
                         // Allow static resources (CSS/JS)
                         .requestMatchers("/css/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                       // .loginPage("/login")
+                        .loginPage("/login")
                         .defaultSuccessUrl("/students", true)
                         .permitAll()
                 )
