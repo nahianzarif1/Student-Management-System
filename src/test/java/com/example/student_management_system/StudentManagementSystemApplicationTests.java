@@ -8,7 +8,6 @@ class StudentManagementSystemApplicationTests {
 
 	@Test
 	void contextLoads() {
-		System.out.println("hello");
 	}
 
 }
